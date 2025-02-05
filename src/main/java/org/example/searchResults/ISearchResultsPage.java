@@ -1,4 +1,4 @@
-package org.example.objects.ui.searchResults;
+package org.example.searchResults;
 
 public interface ISearchResultsPage {
     String getJobData();

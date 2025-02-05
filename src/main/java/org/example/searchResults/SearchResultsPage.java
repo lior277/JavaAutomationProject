@@ -4,7 +4,7 @@ import org.example.internals.WebDriverExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class SearchResultsPage implements org.example.objects.ui.searchResults.ISearchResultsPage {
+public class SearchResultsPage implements ISearchResultsPage {
     private WebDriver driver;
 
     // Locators

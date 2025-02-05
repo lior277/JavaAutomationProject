@@ -3,6 +3,7 @@ package org.example.homePage;
 import org.example.internals.WebDriverExtension;
 import org.example.login.ILoginPage;
 import org.example.login.LoginPage;
+import org.example.searchResults.ISearchResultsPage;
 import org.example.searchResults.SearchResultsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -70,7 +71,7 @@ public class HomePage implements IHomePage {
     }
 
     @Override
-    public org.example.objects.ui.searchResults.ISearchResultsPage chooseAreaFilter() {
+    public ISearchResultsPage chooseAreaFilter() {
 
         // open choose Area filter
         var element = WebDriverExtension
@@ -93,20 +94,20 @@ public class HomePage implements IHomePage {
         WebDriverExtension
                 .forceClick(element, driver, clickOnSaveAreaFilterExp, null);
 
-        org.example.objects.ui.searchResults.ISearchResultsPage searchResultsPage = new SearchResultsPage(driver);
+        var searchResultsPage = new SearchResultsPage(driver);
 
         return searchResultsPage;
     }
 
     @Override
-    public org.example.objects.ui.searchResults.ISearchResultsPage clickOnSearchButton() {
+    public ISearchResultsPage clickOnSearchButton() {
         var element = WebDriverExtension
                 .searchElement(driver, searchBtnExp, null);
 
         WebDriverExtension
                 .forceClick(element, driver, searchBtnExp, null);
 
-        org.example.objects.ui.searchResults.ISearchResultsPage searchResultsPage = new SearchResultsPage(driver);
+        ISearchResultsPage searchResultsPage = new SearchResultsPage(driver);
 
         return searchResultsPage;
     }

@@ -1,7 +1,8 @@
 package org.example.homePage;
 
 import org.example.login.ILoginPage;
-import org.example.objects.ui.searchResults.ISearchResultsPage;
+import org.example.searchResults.ISearchResultsPage;
+
 
 public interface IHomePage {
     IHomePage setJob(String jobName);
