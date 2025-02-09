@@ -1,6 +1,6 @@
 package org.example.homePage;
 
-import org.example.internals.WebDriverExtension;
+import org.example.internals.utils.WebDriverExtension;
 import org.example.login.ILoginPage;
 import org.example.login.LoginPage;
 import org.example.searchResults.ISearchResultsPage;

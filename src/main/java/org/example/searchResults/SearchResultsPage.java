@@ -1,6 +1,6 @@
 package org.example.searchResults;
 
-import org.example.internals.WebDriverExtension;
+import org.example.internals.utils.WebDriverExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

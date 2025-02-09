@@ -1,4 +1,4 @@
-package org.example.internals;
+package org.example.internals.utils;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.example.helpers.DataRep;
@@ -10,9 +10,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Optional;
-
-import static java.lang.Thread.sleep;
 
 public final class WebDriverExtension {
 

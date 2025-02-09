@@ -1,8 +1,8 @@
 package org.example.login;
 
-import org.example.internals.WebDriverExtension;
 import org.example.homePage.HomePage;
 import org.example.homePage.IHomePage;
+import org.example.internals.utils.WebDriverExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
