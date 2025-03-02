@@ -2,7 +2,6 @@ package org.example.internals.utils;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.example.helpers.DataRep;
-import org.example.internals.utils.SleepUtil;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,9 +10,9 @@ import org.openqa.selenium.support.ui.Select;
 import java.time.Duration;
 import java.util.Arrays;
 
-public final class WebDriverExtension {
+public class DriverEXT {
 
-    private WebDriverExtension() {
+    private DriverEXT() {
         throw new AssertionError("Utility class - do not instantiate");
     }
 
@@ -45,7 +44,7 @@ public final class WebDriverExtension {
         });
     }
 
-    public static String getElementText(WebElement element, WebDriver driver, By by,
+    public static String getElementText(WebDriver driver, By by,
                                         @Nullable Integer fromSeconds) {
         var timeout = fromSeconds != null ? fromSeconds : DataRep.TIME_TO_WAIT_FROM_SECONDS;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
@@ -62,7 +61,7 @@ public final class WebDriverExtension {
         try {
             newString = wait.until(d -> {
                 try {
-                    var webElement = driver.findElement(by);
+                    var webElement = searchElement(driver, by, timeout);
                     String text = webElement.getText();
                     String newText = text.replace(System.lineSeparator(), " ");
                     return newText;
@@ -79,8 +78,7 @@ public final class WebDriverExtension {
         return newString;
     }
 
-    public static void forceClick(WebElement element, WebDriver driver, By by,
-                                  @Nullable Integer fromSeconds) {
+    public static void forceClick(WebDriver driver, By by, @Nullable Integer fromSeconds) {
         var timeout = fromSeconds != null ? fromSeconds : DataRep.TIME_TO_WAIT_FROM_SECONDS;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
 
@@ -94,13 +92,15 @@ public final class WebDriverExtension {
 
         wait.until(d -> {
             try {
-                var elementToClick = (by != null) ? driver.findElement(by) : element;
+                var elementToClick = searchElement(driver, by, timeout);
                 if (elementToClick.isEnabled()) {
                     elementToClick.click();
 
                     return true;
                 }
+
                 return false;
+
             } catch (StaleElementReferenceException e) {
                 waitForStaleElementError();
 
@@ -168,10 +168,9 @@ public final class WebDriverExtension {
         });
     }
 
-    public static void sendsKeysAuto(WebElement element,
-                                     WebDriver driver,
+    public static void sendsKeysAuto(WebDriver driver,
                                      By by,
-                                     String input,
+                                     String inputText,
                                      @Nullable Integer fromSeconds) {
         var timeout = fromSeconds != null ? fromSeconds : DataRep.TIME_TO_WAIT_FROM_SECONDS;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
@@ -186,21 +185,50 @@ public final class WebDriverExtension {
 
         wait.until((ExpectedCondition<Boolean>) d -> {
             try {
-                WebElement el = (by != null) ? driver.findElement(by) : element;
+                var element = searchElement(driver, by, timeout);
+                var expectedText = element.getAttribute("value");
 
-                if (el != null && el.isDisplayed() && el.isEnabled()) {
-                    el.clear(); // Clears existing text before input
-                    el.sendKeys(input);
+                if (!expectedText.equals(inputText)) {
+                    element.clear();
+                    element.sendKeys(inputText);
 
-                    return true; // Successful input
+                    return false;
                 }
+
+                return true;
+
             } catch (StaleElementReferenceException e) {
                 waitForStaleElementError();
 
                 return false;
             }
+        });
+    }
 
-            return true;
+    public static void closeAlertMessage(WebDriver driver, @Nullable Integer fromSeconds) {
+        var timeout = fromSeconds != null ? fromSeconds : DataRep.TIME_TO_WAIT_FROM_SECONDS;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+        wait.ignoreAll(Arrays.asList(
+                NoSuchElementException.class,
+                ElementNotInteractableException.class,
+                InvalidSelectorException.class,
+                NoSuchFrameException.class,
+                WebDriverException.class
+        ));
+
+        wait.until((ExpectedCondition<Boolean>) d -> {
+            try {
+                var alert = driver.switchTo().alert();
+                alert.accept();
+
+                return true;
+
+            } catch (StaleElementReferenceException e) {
+                waitForStaleElementError();
+
+                return false;
+            }
         });
     }
 }

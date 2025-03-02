@@ -1,6 +1,6 @@
-package org.example.login;
+package org.example.objectsUi.login;
 
-import org.example.homePage.IHomePage;
+import org.example.objectsUi.homePage.IHomePage;
 
 public interface ILoginPage {
     ILoginPage setUserName(String userName);

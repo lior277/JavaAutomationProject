@@ -10,7 +10,7 @@ public class TestSuitBase {
         if (driver == null) {
             try {
                 WebDriverManager.chromedriver()
-                        .browserVersion("132")
+                        .browserVersion("133")
                         .setup();
 
                 ChromeOptions options = new ChromeOptions();
@@ -38,11 +38,11 @@ public class TestSuitBase {
     public void driverDispose() {
         if (driver != null) {
             try {
-                driver.quit();
             } catch (Exception ex) {
                 System.err.println("Error disposing WebDriver: " + ex.getMessage());
                 ex.printStackTrace();
             } finally {
+                driver.quit();
                 driver = null;
             }
         }
