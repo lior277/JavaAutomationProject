@@ -80,22 +80,25 @@ boost performance, and improve the overall stability of the online store.
    - Implement better session management to prevent lost shopping carts
 
 
-Assume you are responsible for writing automation tests for the application for 3 months. What would your work
-plan be?
-o Tool selection – Would you consider additional tools besides Selenium & Cucumber? - 
-  Playwright: For faster, more reliable cross-browser testing with better shadow DOM support.
-  Applitools: For visual testing to catch UI regressions that functional tests might miss.
+## Work plan for tree mouths
+  **Tool selection**
+  - Playwright: For faster, more reliable cross-browser testing with better shadow DOM support.
+  - Applitools: For visual testing to catch UI regressions that functional tests might miss.
   
-o Understanding the environment and requirements – How would you get familiar with the system?-
-  Through the test cases, read the design, read user manuals.
-  Conduct application walkthroughs with developers/product managers.
-  
-o Critical test implementation – Which tests would you prioritize and why?- 
-  the billing, the checkout, the prices, User Authentication Tests, Product Browsing Tests
+## Get to know the application  
+  - Through the test cases, read the design, read user manuals.
+  - Conduct application walkthroughs with developers/product managers.
+  - Bugs
 
-o Expanding coverage and edge cases – How would you ensure comprehensive coverage?- 
-  Boundary value testing for quantity inputs
-  Performance under load (multiple cart items)
-  Payment failure scenarios
-  Form validation errors
-  Invalid input handling
+## Critical test implementation 
+  - Billing process
+  - Checkout process
+  - User Authentication Tests
+  - Product Browsing Tests
+
+## Expanding coverage and edge cases
+  - Boundary value testing for quantity inputs
+  - Performance under load (multiple cart items)
+  - Payment failure scenarios
+  - Form validation errors
+  - Invalid input handling
