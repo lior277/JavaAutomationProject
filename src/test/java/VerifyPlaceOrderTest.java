@@ -9,7 +9,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
+public class VerifyPlaceOrderTest extends TestSuitBase {
     private IDevicePage devicePage;
     private IUpperNavigationMenu upperNavigationMenu;
     private final String expectedDeviceName = "Nokia lumia 1520";
@@ -39,7 +39,12 @@ public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
                 .setPassword(password)
                 .clickOnLoginButton()
                 .clickOnCategorieByName("phone")
-                .clickOnDeviceImageByName(expectedDeviceName);
+                .clickOnDeviceImageByName(expectedDeviceName)
+                .clickOnAddToChartButton();
+
+        upperNavigationMenu
+                .clickOnCartLink()
+                .clickOnPlaceOrderButton();
     }
 
     @AfterTest
@@ -48,9 +53,8 @@ public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
     }
 
     @Test
-    void VerifyDeviceDataInCartWhenAddingToCart() {
-        var expectedDevicePrice = "820";
-        var expectedDeviceImageName = "Lumia_1520.jpg";
+    void VerifyPlaceOrder() {
+
 
         devicePage
                 .clickOnAddToChartButton()
