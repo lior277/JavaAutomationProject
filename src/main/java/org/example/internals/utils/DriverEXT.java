@@ -231,4 +231,30 @@ public class DriverEXT {
             }
         });
     }
+
+    public static String getAlertMessageText(WebDriver driver, @Nullable Integer fromSeconds) {
+        var timeout = fromSeconds != null ? fromSeconds : DataRep.TIME_TO_WAIT_FROM_SECONDS;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+        wait.ignoreAll(Arrays.asList(
+                NoSuchElementException.class,
+                ElementNotInteractableException.class,
+                InvalidSelectorException.class,
+                NoSuchFrameException.class,
+                WebDriverException.class
+        ));
+
+        return wait.until((ExpectedCondition<String>) d -> {
+            try {
+                var alert = driver.switchTo().alert();
+
+                return alert.getText();
+
+            } catch (StaleElementReferenceException e) {
+                waitForStaleElementError();
+
+                return null;
+            }
+        });
+    }
 }

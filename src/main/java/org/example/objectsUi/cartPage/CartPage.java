@@ -2,6 +2,7 @@ package org.example.objectsUi.cartPage;
 
 import org.example.dataObjects.ProductDTO;
 import org.example.internals.utils.DriverEXT;
+import org.example.placeOrderForm.IPlaceOrderForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -24,6 +25,9 @@ public class CartPage implements ICartPage {
             By.xpath("//div[contains(@class,'col-lg')" +
             " and contains(.,'Total')]");
 
+    private final By placeOrderBtnExp =
+            By.xpath("button[class='btn btn-success']");
+
     public CartPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -41,6 +45,7 @@ public class CartPage implements ICartPage {
         var productNameExt = By.xpath(String.format(productNameInCart, productName));
         var productPriceExt = By.xpath(String.format(productPriceInCart, productPrice));
         var productImageExt = By.xpath(String.format(productImage, productName));
+        var placeOrderExt = By.xpath(String.format(productImage, productName));
 
         // Get all cells from the row
         productDTO.productName = DriverEXT
@@ -73,6 +78,13 @@ public class CartPage implements ICartPage {
 
         var item = By.xpath(String.format(deleteItemFromCartBtn, productName));
         DriverEXT.forceClick(driver, item, null);
+
+        return this;
+    }
+
+    @Override
+    public IPlaceOrderForm clickOnPlaceOrderButton(String productName) {
+        DriverEXT.forceClick(driver, placeOrderBtnExp, null);
 
         return this;
     }
