@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 
 public class DriverEXT {
 
@@ -36,6 +37,30 @@ public class DriverEXT {
                 var element = driver.findElement(by);
 
                 return element;
+            } catch (StaleElementReferenceException e) {
+                waitForStaleElementError();
+
+                return null;
+            }
+        });
+    }
+
+    public static List<WebElement> searchElements(WebDriver driver, By by,
+                                                 @Nullable Integer fromSeconds) {
+        var timeout = fromSeconds != null ? fromSeconds : DataRep.TIME_TO_WAIT_FROM_SECONDS;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+        wait.ignoring(NoSuchElementException.class)
+                .ignoring(ElementNotInteractableException.class)
+                .ignoring(InvalidSelectorException.class)
+                .ignoring(NoSuchFrameException.class)
+                .ignoring(WebDriverException.class);
+
+        return wait.until(d -> {
+            try {
+                var elements = driver.findElements(by);
+
+                return elements;
             } catch (StaleElementReferenceException e) {
                 waitForStaleElementError();
 

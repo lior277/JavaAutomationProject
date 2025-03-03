@@ -3,7 +3,6 @@ package org.example.objectsUi.homePage;
 import org.example.dataObjects.ProductDTO;
 import org.example.objectsUi.devicePage.DevicePage;
 import org.example.objectsUi.devicePage.IDevicePage;
-import org.example.helpers.DataRep;
 import org.example.internals.utils.DriverEXT;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -28,7 +27,7 @@ public class HomePage implements IHomePage {
     }
 
     @Override
-    public IDevicePage clickOnDeviceImageByName(String deviceName) {
+    public IDevicePage clickOnDeviceByName(String deviceName) {
         var deviceExt = By.xpath(String.format(deviceByName, deviceName));
         DriverEXT.forceClick(driver, deviceExt, null);
 

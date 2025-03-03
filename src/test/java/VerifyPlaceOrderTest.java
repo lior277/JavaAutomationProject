@@ -3,11 +3,16 @@ import org.example.helpers.DataRep;
 import org.example.objectsUi.devicePage.IDevicePage;
 import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
+import org.example.placeOrderForm.IPlaceOrderForm;
+import org.example.placeOrderForm.PlaceOrderForm;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class VerifyPlaceOrderTest extends TestSuitBase {
     private IDevicePage devicePage;
@@ -20,7 +25,11 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
         WebDriver driver = getDriver();
 
         ProductDTO productDTO = new ProductDTO();
-        IUpperNavigationMenu upperNavigationMenu = new UpperNavigationMenu(driver, productDTO);
+        IPlaceOrderForm placeOrderForm = new PlaceOrderForm(driver);
+
+        upperNavigationMenu = new UpperNavigationMenu(driver,
+                productDTO, placeOrderForm);
+
         driver.get(DataRep.demoBlazeUrl);
 
         // Generate random credentials for signup
@@ -39,12 +48,8 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
                 .setPassword(password)
                 .clickOnLoginButton()
                 .clickOnCategorieByName("phone")
-                .clickOnDeviceImageByName(expectedDeviceName)
+                .clickOnDeviceByName(expectedDeviceName)
                 .clickOnAddToChartButton();
-
-        upperNavigationMenu
-                .clickOnCartLink()
-                .clickOnPlaceOrderButton();
     }
 
     @AfterTest
@@ -55,27 +60,37 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
     @Test
     void VerifyPlaceOrder() {
 
+        var expectedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/yyyy"));;
+        var expectedName = "Test User";
+        var expectedCreditCard = "1234567890";
+        var expectedAmount = "820 USD";
+        var expectedSuccessMessage = "Thank you for your purchase!";
 
-        devicePage
-                .clickOnAddToChartButton()
-                .getDeviceData();
-
-        var deviceData = upperNavigationMenu
+        var actualPurchaseMessage = upperNavigationMenu
                 .clickOnCartLink()
-                .getCartItemInfoByName(expectedDeviceName, expectedDevicePrice);
+                .clickOnPlaceOrderButton()
+                .placeOrderPipe();
 
         Assertions.assertAll(
-                () -> Assertions.assertTrue(deviceData.productImage.contains(expectedDeviceImageName),
-                        String.format("Expected Device Name: %s, Actual Device Name: %s",
-                                this.expectedDeviceName, deviceData.productImage)),
+                () -> Assertions.assertTrue(actualPurchaseMessage.contains("expectedDate"),
+                        String.format("Expected message contains date: %s, Actual message contains date: %s",
+                                expectedDate, actualPurchaseMessage)),
 
-                () -> Assertions.assertTrue(deviceData.productPrice.contains(expectedDevicePrice),
-                        String.format("Expected Device price: %s, Actual Device price: %s",
-                                expectedDevicePrice, deviceData.productPrice)),
+                () -> Assertions.assertTrue(actualPurchaseMessage.contains(expectedAmount),
+                        String.format("Expected message contains amount: %s, Actual message contains amount: %s",
+                                expectedAmount, actualPurchaseMessage)),
 
-                () -> Assertions.assertTrue(deviceData.productName.contains(expectedDeviceName),
-                        String.format("Expected Device Name: %s, Actual Device Name: %s",
-                                expectedDeviceName, deviceData.productName))
+                () -> Assertions.assertTrue(actualPurchaseMessage.contains(expectedCreditCard),
+                        String.format("Expected message contains Credit Card: %s, Actual message contains Credit Card: %s",
+                                expectedCreditCard, actualPurchaseMessage)),
+
+                () -> Assertions.assertTrue(actualPurchaseMessage.contains(expectedName),
+                        String.format("Expected message contains name: %s, Actual message contains name: %s",
+                                expectedName, actualPurchaseMessage)),
+
+                () -> Assertions.assertTrue(actualPurchaseMessage.contains(expectedSuccessMessage),
+                        String.format("Expected message contains Success Message: %s, Actual message Success Message: %s",
+                                expectedSuccessMessage, actualPurchaseMessage))
         );
     }
 }

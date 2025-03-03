@@ -13,7 +13,7 @@ public interface IPlaceOrderForm {
 
     IPlaceOrderForm setYear(String year);
 
-    IPlaceOrderForm clickOnPurchaseButton();
+    String clickOnPurchaseButton();
 
-    String getPurchaseMessage();
+    String placeOrderPipe();
 }

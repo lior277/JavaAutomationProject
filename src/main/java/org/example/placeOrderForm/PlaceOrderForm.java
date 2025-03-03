@@ -14,10 +14,11 @@ public class PlaceOrderForm implements IPlaceOrderForm {
     // Locators
     private final By nameExp = By.cssSelector("input[id='name']");
     private final By countryExp = By.cssSelector("input[id='country']");
-    private final By cityExp = By.cssSelector("button[id='city']");
+    private final By cityExp = By.cssSelector("input[id='city']");
     private final By creditCardExp = By.cssSelector("input[id='card']");
     private final By monthExp = By.cssSelector("input[id='month']");
-    private final By yearExp = By.cssSelector("button[id='year']");
+    private final By yearExp = By.cssSelector("input[id='year']");
+    private final By ConfirmPurchaseMessageExp = By.cssSelector("div[class*='sweet-alert']");
     private final By purchaseBtnExp = By.cssSelector("button[onclick*='purchaseOrder']");
 
     @Override
@@ -69,17 +70,21 @@ public class PlaceOrderForm implements IPlaceOrderForm {
     }
 
     @Override
-    public IPlaceOrderForm clickOnPurchaseButton() {
+    public String clickOnPurchaseButton() {
 
         DriverEXT.forceClick(driver, purchaseBtnExp, null);
-        DriverEXT.getAlertMessageText(driver, null);
 
-        return this;
+        return DriverEXT.getElementText(driver, ConfirmPurchaseMessageExp, null);
     }
 
     @Override
-    public String getPurchaseMessage() {
-
-        return DriverEXT.getAlertMessageText(driver, null);
+    public String placeOrderPipe() {
+        return setName("Test User")
+                .setCountry("Test Country")
+                .setCity("Test City")
+                .setCreditCard("1234567890")
+                .setMonth("12")
+                .setYear("2023")
+                .clickOnPurchaseButton();
     }
 }

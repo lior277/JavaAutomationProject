@@ -3,15 +3,20 @@ package org.example.objectsUi.cartPage;
 import org.example.dataObjects.ProductDTO;
 import org.example.internals.utils.DriverEXT;
 import org.example.placeOrderForm.IPlaceOrderForm;
+import org.example.placeOrderForm.PlaceOrderForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static org.example.internals.utils.StringUtils.capitalizeFirstLetter;
 
 public class CartPage implements ICartPage {
 
     private final WebDriver driver;
-    private final ProductDTO productDTO = new ProductDTO();
+    private final ProductDTO productDTO;
+    private final IPlaceOrderForm placeOrderForm;
 
     private final String itemInChart = "//table[contains(@class,'bordered')" +
             " and contains(.,'%s')]//td[not(position() = last())]";
@@ -19,17 +24,24 @@ public class CartPage implements ICartPage {
     private final String productNameInCart = "//td[contains(.,'%s')]";
     private final String productPriceInCart = "//td[contains(.,'%s')]";
     private final String productImage = "//tr[contains(.,'%s')]//img";
+    private final String deleteItemFromCartBtn = "//tr[contains(.,'%s')]/td[contains(.,'Delete')]/a";
 
     // Locators
     private final By totalCartExp =
             By.xpath("//div[contains(@class,'col-lg')" +
-            " and contains(.,'Total')]");
+                    " and contains(.,'Total')]");
 
     private final By placeOrderBtnExp =
-            By.xpath("button[class='btn btn-success']");
+            By.cssSelector("button[class='btn btn-success']");
 
-    public CartPage(WebDriver driver) {
+    private final By cartItemsExp = By.cssSelector("tbody[id='tbodyid'] tr");
+
+    public CartPage(WebDriver driver,
+                    ProductDTO productDTO, IPlaceOrderForm placeOrderForm) {
+
         this.driver = driver;
+        this.productDTO = productDTO;
+        this.placeOrderForm = placeOrderForm;
     }
 
     @Override
@@ -45,7 +57,6 @@ public class CartPage implements ICartPage {
         var productNameExt = By.xpath(String.format(productNameInCart, productName));
         var productPriceExt = By.xpath(String.format(productPriceInCart, productPrice));
         var productImageExt = By.xpath(String.format(productImage, productName));
-        var placeOrderExt = By.xpath(String.format(productImage, productName));
 
         // Get all cells from the row
         productDTO.productName = DriverEXT
@@ -72,9 +83,13 @@ public class CartPage implements ICartPage {
     }
 
     @Override
+    public List<WebElement> getCartItems() {
+
+        return DriverEXT.searchElements(driver, cartItemsExp, null);
+    }
+
+    @Override
     public ICartPage deleteItemFromCartByName(String productName) {
-        String deleteItemFromCartBtn = "//table[contains(@class,'bordered')" +
-                " and contains(.,'%s') and contains(.,'Delete')]//a";
 
         var item = By.xpath(String.format(deleteItemFromCartBtn, productName));
         DriverEXT.forceClick(driver, item, null);
@@ -83,9 +98,9 @@ public class CartPage implements ICartPage {
     }
 
     @Override
-    public IPlaceOrderForm clickOnPlaceOrderButton(String productName) {
+    public IPlaceOrderForm clickOnPlaceOrderButton() {
         DriverEXT.forceClick(driver, placeOrderBtnExp, null);
 
-        return this;
+        return new PlaceOrderForm(driver);
     }
 }

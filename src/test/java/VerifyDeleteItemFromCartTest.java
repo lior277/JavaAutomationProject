@@ -1,6 +1,7 @@
 import org.example.dataObjects.ProductDTO;
 import org.example.helpers.DataRep;
 import org.example.objectsUi.devicePage.IDevicePage;
+import org.example.objectsUi.homePage.HomePage;
 import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
 import org.example.placeOrderForm.IPlaceOrderForm;
@@ -11,10 +12,11 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
+public class VerifyDeleteItemFromCartTest extends TestSuitBase {
     private IDevicePage devicePage;
     private IUpperNavigationMenu upperNavigationMenu;
-    private final String expectedDeviceName = "Nokia lumia 1520";
+    private final String expectedFirstDeviceName = "Nokia lumia 1520";
+    private final String expectedSecondDeviceName = "Nexus 6";
     private final String categoryName = "phone";
     private final String username = "testuser" + System.currentTimeMillis();
     private final String password = "password123";
@@ -44,7 +46,14 @@ public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
                 .setPassword(password)
                 .clickOnLoginButton()
                 .clickOnCategorieByName(categoryName)
-                .clickOnDeviceByName(expectedDeviceName);
+                .clickOnDeviceByName(expectedFirstDeviceName)
+                .clickOnAddToChartButton();
+
+        upperNavigationMenu
+                .clickOnHomeLink()
+                .clickOnCategorieByName(categoryName)
+                .clickOnDeviceByName(expectedSecondDeviceName)
+                .clickOnAddToChartButton();
     }
 
     @AfterTest
@@ -54,29 +63,20 @@ public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
 
     @Test
     void VerifyDeviceDataInCartWhenAddingToCart() {
-        var expectedDevicePrice = "820";
-        var expectedDeviceImageName = "Lumia_1520.jpg";
 
-        devicePage
-                .clickOnAddToChartButton()
-                .getDeviceData();
-
-        var deviceData = upperNavigationMenu
+        var cartItems = upperNavigationMenu
                 .clickOnCartLink()
-                .getCartItemInfoByName(expectedDeviceName, expectedDevicePrice);
+                .deleteItemFromCartByName(expectedFirstDeviceName)
+                .getCartItems();
 
         Assertions.assertAll(
-                () -> Assertions.assertTrue(deviceData.productImage.contains(expectedDeviceImageName),
-                        String.format("Expected Device Name: %s, Actual Device Name: %s",
-                                this.expectedDeviceName, deviceData.productImage)),
+                () -> Assertions.assertTrue(cartItems.size() == 1,
+                        String.format("Expected num of products: %s, Actual num of products: %s",
+                                1, cartItems.size())),
 
-                () -> Assertions.assertTrue(deviceData.productPrice.contains(expectedDevicePrice),
-                        String.format("Expected Device price: %s, Actual Device price: %s",
-                                expectedDevicePrice, deviceData.productPrice)),
-
-                () -> Assertions.assertTrue(deviceData.productName.contains(expectedDeviceName),
-                        String.format("Expected Device Name: %s, Actual Device Name: %s",
-                                expectedDeviceName, deviceData.productName))
+                () -> Assertions.assertTrue(cartItems.getFirst().getText().contains(expectedSecondDeviceName),
+                        String.format("Expected Device Name %s, Actual Device Name: %s",
+                                expectedSecondDeviceName, cartItems.getFirst().getText()))
         );
     }
 }

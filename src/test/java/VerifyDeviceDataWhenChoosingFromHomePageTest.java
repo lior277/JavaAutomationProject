@@ -2,14 +2,20 @@ import org.example.helpers.DataRep;
 import org.example.objectsUi.devicePage.IDevicePage;
 import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
+import org.example.placeOrderForm.IPlaceOrderForm;
+import org.example.placeOrderForm.PlaceOrderForm;
 import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.*;
 import org.openqa.selenium.WebDriver;
 import org.example.dataObjects.ProductDTO;
 
 public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
+    private IUpperNavigationMenu upperNavigationMenu;
     private IDevicePage devicePage;
-    private String expectedDeviceName = "Nokia lumia 1520";
+    private final String expectedDeviceName = "Nokia lumia 1520";
+    private final String categoryName = "phone";
+    private final String username = "testuser" + System.currentTimeMillis();
+    private final String password = "password123";
 
     // Add default constructor for TestNG
     public VerifyDeviceDataWhenChoosingFromHomePageTest() {
@@ -22,12 +28,12 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
         WebDriver driver = getDriver();
 
         ProductDTO productDTO = new ProductDTO();
-        IUpperNavigationMenu upperNavigationMenu = new UpperNavigationMenu(driver, productDTO);
-        driver.get(DataRep.demoBlazeUrl);
+        IPlaceOrderForm placeOrderForm = new PlaceOrderForm(driver);
 
-        // Generate random credentials for signup
-        String username = "testuser" + System.currentTimeMillis();
-        String password = "password123";
+        upperNavigationMenu = new UpperNavigationMenu(driver,
+                productDTO, placeOrderForm);
+
+        driver.get(DataRep.demoBlazeUrl);
 
         upperNavigationMenu
                 .clickOnSignUpLink()
@@ -40,8 +46,8 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
                 .setUserName(username)
                 .setPassword(password)
                 .clickOnLoginButton()
-                .clickOnCategorieByName("phone")
-                .clickOnDeviceImageByName("Lumia_1520");
+                .clickOnCategorieByName(categoryName)
+                .clickOnDeviceByName(expectedDeviceName);
     }
 
     @AfterTest

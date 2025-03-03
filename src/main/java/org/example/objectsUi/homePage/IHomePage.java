@@ -6,5 +6,5 @@ public interface IHomePage {
 
     IHomePage clickOnCategorieByName(String categorieName);
 
-    IDevicePage clickOnDeviceImageByName(String deviceName);
+    IDevicePage clickOnDeviceByName(String deviceName);
 }
