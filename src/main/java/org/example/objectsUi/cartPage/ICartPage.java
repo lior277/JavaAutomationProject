@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public interface ICartPage {
+
     ProductDTO getCartTotal();
 
     ProductDTO getCartItemInfoByName(String productName, String productPrice);

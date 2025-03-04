@@ -5,11 +5,11 @@ import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
 import org.example.placeOrderForm.IPlaceOrderForm;
 import org.example.placeOrderForm.PlaceOrderForm;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
     private IDevicePage devicePage;
@@ -19,7 +19,11 @@ public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
     private final String username = "testuser" + System.currentTimeMillis();
     private final String password = "password123";
 
-    @BeforeTest
+    public VerifyDeviceDataInCartWhenAddingToCartTest() {
+        super();
+    }
+
+    @BeforeEach
     void setUp() {
         // Get the driver
         WebDriver driver = getDriver();
@@ -47,13 +51,13 @@ public class VerifyDeviceDataInCartWhenAddingToCartTest extends TestSuitBase {
                 .clickOnDeviceByName(expectedDeviceName);
     }
 
-    @AfterTest
+    @AfterEach
     void tearDown() {
         driverDispose();
     }
 
     @Test
-    void VerifyDeviceDataInCartWhenAddingToCart() {
+    void verifyDeviceDataInCartWhenAddingToCart() {
         var expectedDevicePrice = "820";
         var expectedDeviceImageName = "Lumia_1520.jpg";
 

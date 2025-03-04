@@ -1,13 +1,16 @@
+
 import org.example.helpers.DataRep;
 import org.example.objectsUi.devicePage.IDevicePage;
 import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
 import org.example.placeOrderForm.IPlaceOrderForm;
 import org.example.placeOrderForm.PlaceOrderForm;
-import org.junit.jupiter.api.Assertions;
-import org.testng.annotations.*;
-import org.openqa.selenium.WebDriver;
 import org.example.dataObjects.ProductDTO;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
 
 public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
     private IUpperNavigationMenu upperNavigationMenu;
@@ -17,12 +20,11 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
     private final String username = "testuser" + System.currentTimeMillis();
     private final String password = "password123";
 
-    // Add default constructor for TestNG
     public VerifyDeviceDataWhenChoosingFromHomePageTest() {
         super();
     }
 
-    @BeforeTest
+    @BeforeEach
     void setUp() {
         // Get the driver
         WebDriver driver = getDriver();
@@ -35,12 +37,14 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
 
         driver.get(DataRep.demoBlazeUrl);
 
+        // Register a new user
         upperNavigationMenu
                 .clickOnSignUpLink()
                 .setUserName(username)
                 .setPassword(password)
                 .clickOnSignUpButton();
 
+        // Login and navigate to the specified device
         devicePage = upperNavigationMenu
                 .clickOnLoginLink()
                 .setUserName(username)
@@ -50,24 +54,24 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
                 .clickOnDeviceByName(expectedDeviceName);
     }
 
-    @AfterTest
+    @AfterEach
     void tearDown() {
         driverDispose();
     }
 
     @Test
-    void VerifyDeviceDataWhenChoosingFromHomePage() {
-        var expectedDeviceDescription = "Nokia lumia 1520";
+    void verifyDeviceDataWhenChoosingFromHomePage() {
+        var expectedDeviceImageName = "Lumia_1520.jpg";
         var expectedDevicePrice = "$820";
-        var expectedDeviceName = "nokia_lumia_1520.png";
+        var expectedDeviceDescription = "Nokia Lumia 1520";
 
         var deviceData = devicePage
                 .getDeviceData();
 
         Assertions.assertAll(
-                () -> Assertions.assertTrue(deviceData.productImage.contains(this.expectedDeviceName),
-                        String.format("Expected Device Name: %s, Actual Device Name: %s",
-                                this.expectedDeviceName, deviceData.productImage)),
+                () -> Assertions.assertTrue(deviceData.productImage.contains(expectedDeviceImageName),
+                        String.format("Expected Device Image Name: %s, Actual Device Image Name: %s",
+                                expectedDeviceImageName, deviceData.productImage)),
 
                 () -> Assertions.assertTrue(deviceData.productDescription.contains(expectedDeviceDescription),
                         String.format("Expected Device description: %s, Actual Device description: %s",

@@ -5,21 +5,24 @@ import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
 import org.example.placeOrderForm.IPlaceOrderForm;
 import org.example.placeOrderForm.PlaceOrderForm;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class VerifyPlaceOrderTest extends TestSuitBase {
-    private IDevicePage devicePage;
     private IUpperNavigationMenu upperNavigationMenu;
     private final String expectedDeviceName = "Nokia lumia 1520";
 
-    @BeforeTest
+    public VerifyPlaceOrderTest() {
+        super();
+    }
+
+    @BeforeEach
     void setUp() {
         // Get the driver
         WebDriver driver = getDriver();
@@ -42,7 +45,7 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
                 .setPassword(password)
                 .clickOnSignUpButton();
 
-        devicePage = upperNavigationMenu
+        upperNavigationMenu
                 .clickOnLoginLink()
                 .setUserName(username)
                 .setPassword(password)
@@ -52,15 +55,14 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
                 .clickOnAddToChartButton();
     }
 
-    @AfterTest
+    @AfterEach
     void tearDown() {
         driverDispose();
     }
 
     @Test
-    void VerifyPlaceOrder() {
-
-        var expectedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/yyyy"));;
+    void verifyPlaceOrder() {
+        var expectedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/yyyy"));
         var expectedName = "Test User";
         var expectedCreditCard = "1234567890";
         var expectedAmount = "820 USD";
@@ -72,7 +74,7 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
                 .placeOrderPipe();
 
         Assertions.assertAll(
-                () -> Assertions.assertTrue(actualPurchaseMessage.contains("expectedDate"),
+                () -> Assertions.assertTrue(actualPurchaseMessage.contains(expectedDate),
                         String.format("Expected message contains date: %s, Actual message contains date: %s",
                                 expectedDate, actualPurchaseMessage)),
 

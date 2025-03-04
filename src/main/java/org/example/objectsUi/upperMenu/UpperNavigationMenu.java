@@ -21,10 +21,10 @@ public class UpperNavigationMenu implements IUpperNavigationMenu {
     private final IPlaceOrderForm placeOrderForm;
 
     // Locators
-    private final By SIGN_UP_EXP  = By.cssSelector("a[id*='signin']");
-    private final By LoginExp = By.cssSelector("a[id*='login']");
-    private final By chartExp = By.cssSelector("a[id='cartur']");
-    private final By homeExp = By.xpath("//a[contains(.,'Home ')]");
+    private static final By SIGNUP_LINK = By.cssSelector("a[id*='signin']");
+    private static final By LOGIN_LINK = By.cssSelector("a[id*='login']");
+    private static final By CART_LINK = By.cssSelector("a[id='cartur']");
+    private static final By HOME_LINK = By.xpath("//a[contains(.,'Home ')]");
 
     public UpperNavigationMenu(WebDriver driver, ProductDTO productDTO,
                                IPlaceOrderForm placeOrderForm) {
@@ -35,33 +35,25 @@ public class UpperNavigationMenu implements IUpperNavigationMenu {
 
     @Override
     public ILoginPage clickOnLoginLink() {
-
-        DriverEXT.forceClick(this.driver, LoginExp, null);
-
+        DriverEXT.forceClick(this.driver, LOGIN_LINK, null);
         return new LoginPage(this.driver, this.productDTO);
     }
 
     @Override
     public ISignUpPage clickOnSignUpLink() {
-
-        DriverEXT.forceClick(this.driver, SIGN_UP_EXP, null);
-
+        DriverEXT.forceClick(this.driver, SIGNUP_LINK, null);
         return new SignUpPage(driver, this.productDTO);
     }
 
     @Override
     public ICartPage clickOnCartLink() {
-
-        DriverEXT.forceClick(this.driver, chartExp, null);
-
+        DriverEXT.forceClick(this.driver, CART_LINK, null);
         return new CartPage(driver, this.productDTO, this.placeOrderForm);
     }
 
     @Override
     public IHomePage clickOnHomeLink() {
-
-        DriverEXT.forceClick(this.driver, homeExp, null);
-
+        DriverEXT.forceClick(this.driver, HOME_LINK, null);
         return new HomePage(driver, this.productDTO);
     }
 }
