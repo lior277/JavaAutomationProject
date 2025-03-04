@@ -1,6 +1,9 @@
-Explain the reasoning behind your test selection - all 4 tests are E2E tests that check crucial parts of the application these checks are actions that the user can perform
-# Bug Report
+## Explain the reasoning
+- all 4 tests are E2E tests that check crucial parts of the application these checks are actions that the user can perform
 
+## Running the test 
+- use "mvn test" command
+# Bug Report
 ## Title
 Incorrect Date Display in the purchase message
 
