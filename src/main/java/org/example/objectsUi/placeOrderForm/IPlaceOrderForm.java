@@ -1,4 +1,4 @@
-package org.example.placeOrderForm;
+package org.example.objectsUi.placeOrderForm;
 
 public interface IPlaceOrderForm {
     IPlaceOrderForm setName(String userName);

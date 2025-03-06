@@ -10,7 +10,7 @@ import org.example.objectsUi.login.ILoginPage;
 import org.example.objectsUi.login.LoginPage;
 import org.example.objectsUi.signUpPage.ISignUpPage;
 import org.example.objectsUi.signUpPage.SignUpPage;
-import org.example.placeOrderForm.IPlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.IPlaceOrderForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

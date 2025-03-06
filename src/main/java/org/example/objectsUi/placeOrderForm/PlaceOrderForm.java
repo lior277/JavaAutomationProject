@@ -1,4 +1,4 @@
-package org.example.placeOrderForm;
+package org.example.objectsUi.placeOrderForm;
 
 import org.example.internals.utils.DriverEXT;
 import org.openqa.selenium.By;

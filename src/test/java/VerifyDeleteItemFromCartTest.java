@@ -2,13 +2,14 @@ import org.example.dataObjects.ProductDTO;
 import org.example.helpers.DataRep;
 import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
-import org.example.placeOrderForm.IPlaceOrderForm;
-import org.example.placeOrderForm.PlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.IPlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.PlaceOrderForm;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.example.TestSuitBase;
 
 public class VerifyDeleteItemFromCartTest extends TestSuitBase {
     private IUpperNavigationMenu upperNavigationMenu;
@@ -41,6 +42,7 @@ public class VerifyDeleteItemFromCartTest extends TestSuitBase {
                 .setPassword(password)
                 .clickOnSignUpButton();
 
+        // add the first device to the cart
         upperNavigationMenu
                 .clickOnLoginLink()
                 .setUserName(username)
@@ -50,6 +52,7 @@ public class VerifyDeleteItemFromCartTest extends TestSuitBase {
                 .clickOnDeviceByName(expectedFirstDeviceName)
                 .clickOnAddToChartButton();
 
+        // add the second device to the cart
         upperNavigationMenu
                 .clickOnHomeLink()
                 .clickOnCategorieByName(categoryName)
@@ -63,18 +66,19 @@ public class VerifyDeleteItemFromCartTest extends TestSuitBase {
     }
 
     @Test
-    void verifyDeviceDataInCartWhenAddingToCart() {
+    void vVerifyDeleteItemFromCartTest() {
         var cartItems = upperNavigationMenu
                 .clickOnCartLink()
                 .deleteItemFromCartByName(expectedFirstDeviceName)
                 .getCartItems();
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(1, cartItems.size(),
+                () -> Assertions.assertTrue(1 == cartItems.size(),
                         String.format("Expected num of products: %s, Actual num of products: %s",
                                 1, cartItems.size())),
 
-                () -> Assertions.assertTrue(cartItems.getFirst().getText().contains(expectedSecondDeviceName),
+                () -> Assertions.assertTrue(cartItems.getFirst().getText()
+                                .contains(expectedSecondDeviceName),
                         String.format("Expected Device Name %s, Actual Device Name: %s",
                                 expectedSecondDeviceName, cartItems.getFirst().getText()))
         );

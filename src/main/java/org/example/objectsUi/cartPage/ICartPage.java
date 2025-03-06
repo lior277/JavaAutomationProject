@@ -1,7 +1,7 @@
 package org.example.objectsUi.cartPage;
 
 import org.example.dataObjects.ProductDTO;
-import org.example.placeOrderForm.IPlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.IPlaceOrderForm;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;

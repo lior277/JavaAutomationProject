@@ -3,14 +3,15 @@ import org.example.helpers.DataRep;
 import org.example.objectsUi.devicePage.IDevicePage;
 import org.example.objectsUi.upperMenu.IUpperNavigationMenu;
 import org.example.objectsUi.upperMenu.UpperNavigationMenu;
-import org.example.placeOrderForm.IPlaceOrderForm;
-import org.example.placeOrderForm.PlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.IPlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.PlaceOrderForm;
 import org.example.dataObjects.ProductDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.example.TestSuitBase;
 
 public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
     private IUpperNavigationMenu upperNavigationMenu;
