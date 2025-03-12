@@ -18,17 +18,13 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
     private IUpperNavigationMenu upperNavigationMenu;
     private final String expectedDeviceName = "Nokia lumia 1520";
 
-    public VerifyPlaceOrderTest() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         // Get the driver
         WebDriver driver = getDriver();
 
-        ProductDTO productDTO = new ProductDTO();
-        IPlaceOrderForm placeOrderForm = new PlaceOrderForm(driver);
+        var productDTO = new ProductDTO();
+        var placeOrderForm = new PlaceOrderForm(driver);
 
         upperNavigationMenu = new UpperNavigationMenu(driver,
                 productDTO, placeOrderForm);
@@ -39,17 +35,22 @@ public class VerifyPlaceOrderTest extends TestSuitBase {
         String username = "testuser" + System.currentTimeMillis();
         String password = "password123";
 
-        upperNavigationMenu
+        // Register a new user
+        var homepage = upperNavigationMenu
                 .clickOnSignUpLink()
                 .setUserName(username)
                 .setPassword(password)
                 .clickOnSignUpButton();
 
+        // login
         upperNavigationMenu
                 .clickOnLoginLink()
                 .setUserName(username)
                 .setPassword(password)
-                .clickOnLoginButton()
+                .clickOnLoginButton();
+
+        // add the first device to the cart
+        homepage
                 .clickOnCategorieByName("phone")
                 .clickOnDeviceByName(expectedDeviceName)
                 .clickOnAddToChartButton();

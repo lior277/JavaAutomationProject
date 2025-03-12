@@ -3,6 +3,7 @@ package org.example.objectsUi.cartPage;
 import org.example.dataObjects.ProductDTO;
 import org.example.internals.utils.DriverEXT;
 import org.example.objectsUi.placeOrderForm.IPlaceOrderForm;
+import org.example.objectsUi.placeOrderForm.PlaceOrderForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -126,6 +127,6 @@ public class CartPage implements ICartPage {
     public IPlaceOrderForm clickOnPlaceOrderButton() {
         LOGGER.info("Clicking Place Order button");
         DriverEXT.forceClick(driver, PLACE_ORDER_BUTTON, null);
-        return placeOrderForm;
+        return this.placeOrderForm;
     }
 }

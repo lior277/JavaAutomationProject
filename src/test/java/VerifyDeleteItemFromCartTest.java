@@ -19,16 +19,12 @@ public class VerifyDeleteItemFromCartTest extends TestSuitBase {
     private final String username = "testuser" + System.currentTimeMillis();
     private final String password = "password123";
 
-    public VerifyDeleteItemFromCartTest() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         // Get the driver
         WebDriver driver = getDriver();
 
-        ProductDTO productDTO = new ProductDTO();
+        var productDTO = new ProductDTO();
         IPlaceOrderForm placeOrderForm = new PlaceOrderForm(driver);
 
         upperNavigationMenu = new UpperNavigationMenu(driver,
@@ -36,18 +32,22 @@ public class VerifyDeleteItemFromCartTest extends TestSuitBase {
 
         driver.get(DataRep.demoBlazeUrl);
 
-        upperNavigationMenu
+        // Register a new user
+        var homepage = upperNavigationMenu
                 .clickOnSignUpLink()
                 .setUserName(username)
                 .setPassword(password)
                 .clickOnSignUpButton();
 
-        // add the first device to the cart
-        upperNavigationMenu
+        // login
+        homepage = upperNavigationMenu
                 .clickOnLoginLink()
                 .setUserName(username)
                 .setPassword(password)
-                .clickOnLoginButton()
+                .clickOnLoginButton();
+
+        // add the first device to the cart
+        homepage
                 .clickOnCategorieByName(categoryName)
                 .clickOnDeviceByName(expectedFirstDeviceName)
                 .clickOnAddToChartButton();
@@ -67,6 +67,8 @@ public class VerifyDeleteItemFromCartTest extends TestSuitBase {
 
     @Test
     void vVerifyDeleteItemFromCartTest() {
+
+        // delete the first device from the cart
         var cartItems = upperNavigationMenu
                 .clickOnCartLink()
                 .deleteItemFromCartByName(expectedFirstDeviceName)

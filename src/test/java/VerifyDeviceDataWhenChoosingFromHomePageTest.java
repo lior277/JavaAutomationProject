@@ -21,16 +21,12 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
     private final String username = "testuser" + System.currentTimeMillis();
     private final String password = "password123";
 
-    public VerifyDeviceDataWhenChoosingFromHomePageTest() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         // Get the driver
         WebDriver driver = getDriver();
 
-        ProductDTO productDTO = new ProductDTO();
+        var productDTO = new ProductDTO();
         IPlaceOrderForm placeOrderForm = new PlaceOrderForm(driver);
 
         upperNavigationMenu = new UpperNavigationMenu(driver,
@@ -39,18 +35,21 @@ public class VerifyDeviceDataWhenChoosingFromHomePageTest extends TestSuitBase {
         driver.get(DataRep.demoBlazeUrl);
 
         // Register a new user
-        upperNavigationMenu
+        var homepage = upperNavigationMenu
                 .clickOnSignUpLink()
                 .setUserName(username)
                 .setPassword(password)
                 .clickOnSignUpButton();
 
-        // Login and navigate to the specified device
-        devicePage = upperNavigationMenu
+        // login
+        upperNavigationMenu
                 .clickOnLoginLink()
                 .setUserName(username)
                 .setPassword(password)
-                .clickOnLoginButton()
+                .clickOnLoginButton();
+
+        // choose device from home page
+        homepage
                 .clickOnCategorieByName(categoryName)
                 .clickOnDeviceByName(expectedDeviceName);
     }
